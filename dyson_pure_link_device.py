@@ -165,7 +165,7 @@ class DysonPureLink(object):
             self._change_state({'rhtm': mode})
 
     def get_data(self):
-        return 'Current state: {0}\n\rSensors data: {1}'.format(self.state_data, self.sensor_data) if self.has_valid_data else None
+        return (self.state_data, self.sensor_data) if self.has_valid_data else tuple()
 
     def disconnect_device(self):
         """Disconnects device and return the boolean result"""
