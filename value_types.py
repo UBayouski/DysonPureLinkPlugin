@@ -96,8 +96,8 @@ class StateData(object):
 
     def __repr__(self):
         """Return a String representation"""
-        return 'Fan mode: {0}, Oscillation: {1}, Filter life: {2}, Standby monitoring: {3}'.format(
-            self.fan_mode, self.oscillation, self.filter_life, self.standby_monitoring)
+        return 'Fan mode: {0}, Oscillation: {1}, Filter life: {2}, Standby monitoring: {3}, Fan speed: {4}'.format(
+            self.fan_mode, self.oscillation, self.filter_life, self.standby_monitoring, self.speed, )
 
     @staticmethod
     def _get_field_value(field):
