@@ -174,12 +174,12 @@ class DysonPureLink(object):
     def set_fan_mode(self, mode):
         """Changes fan mode: ON|OFF|AUTO"""
         if self._is_connected:
-            self._change_state({'fmod': mode})
+            self._change_state({'fmod': mode.upper()})
 
     def set_standby_monitoring(self, mode):
         """Changes standby monitoring: ON|OFF"""
         if self._is_connected:
-            self._change_state({'rhtm': mode})
+            self._change_state({'rhtm': mode.upper()})
 
     def get_data(self):
         return (self.state_data, self.sensor_data) if self.has_valid_data else tuple()
