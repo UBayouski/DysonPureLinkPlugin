@@ -1,5 +1,5 @@
 DYSON_PASSWORD: 'Product Wi-Fi Password'
-DYSON_SERIAL: 'Product SSID'
+DYSON_SERIAL: 'Product SSID (Remove leading DYSON- and trailing -XXX)'
 DYSON_IP: 'Device IP Address'
 DYSON_PORT: 1883 # Default port
 DYSON_TYPE: 455 # Usully one of 455, 465, 475

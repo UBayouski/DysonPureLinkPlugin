@@ -17,6 +17,7 @@ DISCONNECTION_STATE = {
     99: 'Disconnection error: timeout'
 }
 
+
 class FanMode(object):
     """Enum for fan mode"""
 
@@ -24,13 +25,16 @@ class FanMode(object):
     ON = 'FAN'
     AUTO = 'AUTO'
 
+
 class StandbyMonitoring(object):
     """Enum for monitor air quality when on standby"""
 
     ON = 'ON'
     OFF = 'OFF'
 
+
 """Custom Errors"""
+
 
 class ConnectionError(Exception):
     """Custom error to handle connect device issues"""
@@ -39,11 +43,14 @@ class ConnectionError(Exception):
         super(ConnectionError, self).__init__(*args)
         self.message = CONNECTION_STATE[return_code]
 
+
 class DisconnectionError(Exception):
     """Custom error to handle disconnect device issues"""
+
     def __init__(self, return_code, *args):
         super(DisconnectionError, self).__init__(*args)
         self.message = DISCONNECTION_STATE[return_code] if return_code in DISCONNECTION_STATE else DISCONNECTION_STATE[50]
+
 
 class SensorsData(object):
     """Value type for sensors data"""
@@ -53,11 +60,14 @@ class SensorsData(object):
         humidity = data['hact']
         temperature = data['tact']
         volatile_compounds = data['vact']
+        particles = data['pact']
+
 
         self.humidity = None if humidity == 'OFF' else int(humidity)
         self.temperature = None if temperature == 'OFF' else self.kelvin_to_fahrenheit(float(temperature) / 10)
-        self.volatile_compounds = 0 if volatile_compounds == 'INIT' else int(volatile_compounds)
-        self.particles = int(data['pact'])
+        self.volatile_compounds = 0 if volatile_compounds == 'OFF' or volatile_compounds == 'INIT' else int(
+            volatile_compounds)
+        self.particles = 0 if particles == 'OFF' or particles == 'INIT' else int(particles)
 
     def __repr__(self):
         """Return a String representation"""
@@ -73,8 +83,9 @@ class SensorsData(object):
         return message['msg'] in ['ENVIRONMENTAL-CURRENT-SENSOR-DATA']
 
     @staticmethod
-    def kelvin_to_fahrenheit (kelvin_value):
+    def kelvin_to_fahrenheit(kelvin_value):
         return kelvin_value * 9 / 5 - 459.67
+
 
 class StateData(object):
     """Value type for state data"""
@@ -93,8 +104,8 @@ class StateData(object):
 
     def __repr__(self):
         """Return a String representation"""
-        return 'Fan mode: {0}, Oscillation: {1}, Filter life: {2}, Standby monitoring: {3}'.format(
-            self.fan_mode, self.oscillation, self.filter_life, self.standby_monitoring)
+        return 'Fan mode: {0}, Oscillation: {1}, Filter life: {2}, Standby monitoring: {3}, Fan speed: {4}'.format(
+            self.fan_mode, self.oscillation, self.filter_life, self.standby_monitoring, self.speed, )
 
     @staticmethod
     def _get_field_value(field):

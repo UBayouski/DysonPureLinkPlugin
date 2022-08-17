@@ -10,6 +10,8 @@ if __name__ == '__main__':
     args_parser = argparse.ArgumentParser()
     args_parser.add_argument('-fan')
     args_parser.add_argument('-standby')
+    args_parser.add_argument('-osc')
+    args_parser.add_argument('-speed')
     args = args_parser.parse_args()
 
     # Start new instance of Dyson Pure Link Device
@@ -36,6 +38,20 @@ if __name__ == '__main__':
     if args.standby:
         print('Testing standby mode')
         dyson_pure_link.set_standby_monitoring(args.standby)
+        for entry in dyson_pure_link.get_data():
+            print(entry)
+
+    # Set Fan speed command
+    if args.speed:
+        print('Testing fan speed')
+        dyson_pure_link.set_fan_speed(args.speed)
+        for entry in dyson_pure_link.get_data():
+            print(entry)
+
+    # Set Oscillation command
+    if args.osc:
+        print('Testing oscillation')
+        dyson_pure_link.set_oscillation(args.osc)
         for entry in dyson_pure_link.get_data():
             print(entry)
 
