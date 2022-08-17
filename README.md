@@ -8,6 +8,17 @@ You can read its sensors data and use it with other smart devices, personal proj
 
 To connect to Dyson Link device, we use MQTT protocol and Python 2.7 code. If you need it in Python 3 you can easily migrate to it by changing import of Queue module to lowercase queue.
 
+### Install
+
+```
+$ cp dyson_pure_link.yaml.example dyson_pure_link.yaml
+$ vim dyson_pure_link.yaml
+$ python3 -m pip install pyyaml
+$ python3 -m pip install paho-mqtt
+$ python3 -m pip install empty
+$ python3 -m pip install pyqueue
+```
+
 ### Getting sensors readings:
 #### python run_plugin.py
 
