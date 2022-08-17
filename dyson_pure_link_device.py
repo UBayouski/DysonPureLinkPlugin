@@ -93,7 +93,7 @@ class DysonPureLink(object):
                     'msg': 'REQUEST-CURRENT-STATE',
                     'time': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())})
             
-            self.client.publish(self.device_command, command);
+            self.client.publish(self.device_command, command)
 
     def _change_state(self, data):
         """Publishes request for change state message"""
