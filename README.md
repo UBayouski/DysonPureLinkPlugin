@@ -20,10 +20,16 @@ $ python3 -m pip install pyqueue
 ```
 
 ### Getting sensors readings:
-#### python run_plugin.py
+#### python3 run_plugin.py
 
 ### Change Fan mode:
-#### python run_plugin.py –fan FAN|OFF|AUTO
+#### python3 run_plugin.py –fan FAN|OFF|AUTO
 
 ### Change standby mode: 
-#### python run_plugin.py –standby ON|OFF
+#### python3 run_plugin.py –standby ON|OFF
+
+### Change Fan speed:
+#### python3 run_plugin.py –speed 1...10|UP|DOWN
+
+### Change Oscillation:
+#### python3 run_plugin.py –osc ON|OFF
