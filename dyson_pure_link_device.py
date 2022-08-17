@@ -155,6 +155,22 @@ class DysonPureLink(object):
         self.client = None
         return False
 
+    def set_fan_speed(self, speed):
+        """Changes fan speed: 1-10"""
+        if speed.lower() == 'up':
+            p_speed = int(self.state_data.speed) + 1
+        elif speed.lower() == 'down':
+            p_speed = int(self.state_data.speed) - 1
+        else:
+            p_speed = int(speed)
+
+        if self._is_connected:
+            self._change_state({'fnsp': p_speed})
+
+    def set_oscillation(self, mode):
+        """Changes oscillation: ON|OFF"""
+        if self._is_connected:
+            self._change_state({'oson': mode.upper()})
     def set_fan_mode(self, mode):
         """Changes fan mode: ON|OFF|AUTO"""
         if self._is_connected:
