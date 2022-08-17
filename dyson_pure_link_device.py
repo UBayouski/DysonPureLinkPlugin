@@ -3,7 +3,8 @@
 import base64, json, hashlib, os, time, yaml
 import paho.mqtt.client as mqtt
 
-from Queue import Queue, Empty
+#from Queue import Queue, Empty
+import queue, empty
 
 from value_types import CONNECTION_STATE, DISCONNECTION_STATE, FanMode, StandbyMonitoring, ConnectionError, DisconnectionError, SensorsData, StateData
 
@@ -13,10 +14,10 @@ class DysonPureLink(object):
     def __init__(self):
         self.client = None
         self.config = None
-        self.connected = Queue()
-        self.disconnected = Queue()
-        self.state_data_available = Queue()
-        self.sensor_data_available = Queue()
+        self.connected = queue.Queue()
+        self.disconnected = queue.Queue()
+        self.state_data_available = queue.Queue()
+        self.sensor_data_available = queue.Queue()
         self.sensor_data = None
         self.state_data = None
         self._is_connected = None

@@ -53,11 +53,14 @@ class SensorsData(object):
         humidity = data['hact']
         temperature = data['tact']
         volatile_compounds = data['vact']
+        particles = data['pact']
+
 
         self.humidity = None if humidity == 'OFF' else int(humidity)
         self.temperature = None if temperature == 'OFF' else self.kelvin_to_fahrenheit(float(temperature) / 10)
-        self.volatile_compounds = 0 if volatile_compounds == 'INIT' else int(volatile_compounds)
-        self.particles = int(data['pact'])
+        self.volatile_compounds = 0 if volatile_compounds == 'OFF' or volatile_compounds == 'INIT' else int(
+            volatile_compounds)
+        self.particles = 0 if particles == 'OFF' or particles == 'INIT' else int(particles)
 
     def __repr__(self):
         """Return a String representation"""
