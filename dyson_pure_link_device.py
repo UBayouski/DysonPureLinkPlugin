@@ -3,7 +3,8 @@
 import base64, json, hashlib, os, time, yaml
 import paho.mqtt.client as mqtt
 
-from Queue import Queue, Empty
+#from Queue import Queue, Empty
+import queue, empty
 
 from value_types import CONNECTION_STATE, DISCONNECTION_STATE, FanMode, StandbyMonitoring, ConnectionError, DisconnectionError, SensorsData, StateData
 
@@ -13,10 +14,10 @@ class DysonPureLink(object):
     def __init__(self):
         self.client = None
         self.config = None
-        self.connected = Queue()
-        self.disconnected = Queue()
-        self.state_data_available = Queue()
-        self.sensor_data_available = Queue()
+        self.connected = queue.Queue()
+        self.disconnected = queue.Queue()
+        self.state_data_available = queue.Queue()
+        self.sensor_data_available = queue.Queue()
         self.sensor_data = None
         self.state_data = None
         self._is_connected = None
@@ -92,7 +93,7 @@ class DysonPureLink(object):
                     'msg': 'REQUEST-CURRENT-STATE',
                     'time': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())})
             
-            self.client.publish(self.device_command, command);
+            self.client.publish(self.device_command, command)
 
     def _change_state(self, data):
         """Publishes request for change state message"""
@@ -154,15 +155,31 @@ class DysonPureLink(object):
         self.client = None
         return False
 
+    def set_fan_speed(self, speed):
+        """Changes fan speed: 1-10"""
+        if speed.lower() == 'up':
+            p_speed = int(self.state_data.speed) + 1
+        elif speed.lower() == 'down':
+            p_speed = int(self.state_data.speed) - 1
+        else:
+            p_speed = int(speed)
+
+        if self._is_connected:
+            self._change_state({'fnsp': p_speed})
+
+    def set_oscillation(self, mode):
+        """Changes oscillation: ON|OFF"""
+        if self._is_connected:
+            self._change_state({'oson': mode.upper()})
     def set_fan_mode(self, mode):
         """Changes fan mode: ON|OFF|AUTO"""
         if self._is_connected:
-            self._change_state({'fmod': mode})
+            self._change_state({'fmod': mode.upper()})
 
     def set_standby_monitoring(self, mode):
         """Changes standby monitoring: ON|OFF"""
         if self._is_connected:
-            self._change_state({'rhtm': mode})
+            self._change_state({'rhtm': mode.upper()})
 
     def get_data(self):
         return (self.state_data, self.sensor_data) if self.has_valid_data else tuple()
